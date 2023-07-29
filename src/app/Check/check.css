@@ -1,0 +1,169 @@
+.check{
+    position: absolute;
+    background:white;
+    height:100vh;
+    width:100vw;
+    overflow: hidden;
+}
+.checkc{
+    position: relative;
+    display: flex;
+    height:100%;
+    width:100%;
+    flex-direction: column;
+    align-items: center;
+}
+.logoc{
+    position: absolute;
+    top:10%;
+    left:4%;
+    background: #B800F8;
+    box-shadow: 5px 4px 10px 2px #BD00FF, 2px -5px 10px 1px #FFF inset;
+    height:80px;
+    width:80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    cursor: pointer;
+    animation-name: change;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+@keyframes change {
+    0%{   box-shadow: 5px 4px 10px 2px #BD00FF, 2px 5px 10px 1px #FFF inset;}
+    100%{ box-shadow: 5px 4px 10px 2px #BD00FF, 2px -5px 10px 1px #FFF inset;}
+}
+.logo{
+    position: relative;
+    top:0%;
+    height:60px;
+    width:60px;
+}
+.headerc{
+    position: relative;
+    height:10vh;
+    width: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.cbuttonc{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: right;
+    right: 5%;
+    gap:20px;
+    top:20%;
+}
+.cbuttont{
+    border-radius: 50px;
+background: #B800F8;
+box-shadow: 0px 4px 10px 2px #BD00FF, 2px -5px 10px 1px #FFF inset;
+border: none;
+color:white;
+font-size: 20px;
+padding: 10px 15px;
+}
+.cbuttont:hover{
+    box-shadow: 0px 4px 10px 2px #BD00FF, 2px 5px 10px 1px #FFF inset;
+    cursor: pointer;
+}
+.cbody{
+    position: relative;
+    width:90%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+.checkh{
+    position: relative;
+    top:1%;
+    font-size: 36px;
+    width:70%;
+    height:auto;
+    padding:5vh 5vw;
+    color:#B800F8;
+    -webkit-text-stroke: 2px;
+    text-align: center;
+}
+.checkh1{
+    position: relative;
+    font-size: 32px;
+    width:70%;
+    height:auto;
+    color:#d46cfa;
+    -webkit-text-stroke: 2px;
+    text-align: center;
+}
+.checkh2{
+    position: relative;
+    font-size: 24px;
+    width:70%;
+    height:auto;
+    color:rgb(190, 186, 186);
+    -webkit-text-stroke: 2px;
+    text-align: center;
+}
+.omailt{
+    font-size: 28px;
+    color: #B800F8;
+}
+.omailh{
+    font-size: 50px;
+    color: #B800F8;
+}
+.field{
+    position: relative;
+    padding: 5vh;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:2vh;
+}
+.caf{
+    position: relative;
+    width:50%;
+    font-size: 40px;
+    border:5px solid #B800F8;
+    border-radius: 20px 20px ;
+    padding:10px 10px;
+}
+
+/*********************************** 1200 px *********************************************/
+@media (max-width: 1200px) {
+    .caf{
+        width:60%;
+    }
+}
+/*********************************** 960 px *********************************************/
+@media (max-width: 960px) {
+    .caf{
+        width:70%;
+        font-size: 32px;
+    }
+}
+/*********************************** 768 px *********************************************/
+@media (max-width: 768px) {
+    .caf{
+        width:70%;
+        font-size: 28px;
+    }
+}
+/*********************************** 650 px *********************************************/
+@media (max-width: 650px) {
+    .caf{
+        width:90%;
+        font-size: 24px;
+    }
+}
