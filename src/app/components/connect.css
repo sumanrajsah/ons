@@ -1,0 +1,172 @@
+.buttoncont{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: flex-end;
+    gap:20px;
+}
+
+.button-17 {
+    align-items: center;
+    appearance: none;
+    background-color: #fff;
+    border-radius: 24px;
+    border-style: none;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    box-sizing: border-box;
+    color: #3c4043;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-family: "Google Sans",Roboto,Arial,sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    height: 48px;
+    justify-content: center;
+    letter-spacing: .25px;
+    line-height: normal;
+    max-width: 100%;
+    overflow: visible;
+    padding: 10px 15px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    user-select: none;
+    gap:10px;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform,opacity;
+    z-index: 0;
+  }
+  
+  .button-17:hover {
+    background: #F6F9FE;
+    color: #BD00FF;
+  }
+  
+  .button-17:active {
+    box-shadow: 0px 4px 10px 2px #dc87fa, 2px -5px 10px 1px ;
+    outline: none;
+  }
+  
+  .button-17:focus {
+    outline: none;
+    border: 2px solid #BD00FF;
+  }
+  
+  .button-17:not(:disabled) {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }
+  
+  .button-17:not(:disabled):hover {
+    box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+  }
+  
+  .button-17:not(:disabled):focus {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }
+  
+  .button-17:not(:disabled):active {
+    box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+  }
+  
+  .button-17:disabled {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }
+  .buttonconnect{
+    border-radius: 50px;
+    background: #B800F8;
+    box-shadow: 0px 4px 10px 2px #dc87fa, 2px -5px 10px 1px ;
+    border: none;
+    color:white;
+    font-size: 20px;
+    padding: 10px 15px;
+  }
+  .buttonconnect:hover{
+    transform: scale(1.1);
+  }
+  .wnbutton{
+    border-radius: 50px;
+    background: red;
+    box-shadow: 0px 4px 10px 2px #fa8787, 2px -5px 10px 1px ;
+    border: none;
+    color:white;
+    font-size: 20px;
+    padding: 10px 15px;
+  }
+  .wnbutton:hover{
+    transform: scale(1.1);
+  }
+  .userbutton{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top:50%;
+  }
+  .usericon{
+    position: relative;
+    width: 30px;
+  }
+  .logicon{
+    position: relative;
+    width: 20px;
+  }
+  .dropdownlist{
+    position: absolute;
+    z-index: 1;
+    display: none;
+    height:auto;
+    padding: 5vh;
+    width:auto;
+    background-color:#e0dddd ;
+    top:110%;
+    right:5%;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    gap:10px;
+  }
+  .dbutton{
+    position: relative;
+    width:100%;
+    height:auto;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    padding:10px 30px;
+    background-color: white;
+    border-radius: 24px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+  }
+  .dbutton:hover{
+    box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+    color:#B800F8;
+    transform: scale(1.01);
+  }
+  .conbutton{
+    position: relative;
+    width:100%;
+    height:auto;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    padding:10px 10px;
+    background-color: white;
+    border-radius: 24px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    right:10%;
+    gap:10px;
+  }
+  .conbutton:hover{
+    box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+    color:#B800F8;
+    transform: scale(1.01);
+  }

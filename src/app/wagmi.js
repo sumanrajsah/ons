@@ -1,25 +1,70 @@
 "use client"
 import '@rainbow-me/rainbowkit/styles.css';
-require('dotenv').config();
+import {
+  getDefaultWallets,
+  RainbowKitProvider,connectorsForWallets
+} from '@rainbow-me/rainbowkit';
+import {
+  argentWallet,
+  braveWallet,
+  coinbaseWallet,
+  injectedWallet,
+  ledgerWallet,
+  metaMaskWallet,
+  phantomWallet,
+  rainbowWallet,
+  trustWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { polygon, sepolia } from 'wagmi/chains'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  zora,
+  sepolia,
+  polygonMumbai,
+} from 'wagmi/chains';
+
+import { publicProvider } from 'wagmi/providers/public';
+import { infuraProvider } from 'wagmi/providers/infura'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 
 
 
-const chains = [polygon]
-const projectId = process.env.NEXT_PUBLIC_ID
-
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const { chains, publicClient } = configureChains(
+  [sepolia],
+  [
+    publicProvider()
+  ]
+);
+const projectId = process.env.PROJECT_ID;
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      injectedWallet({ chains }),
+      rainbowWallet({ projectId, chains }),
+      walletConnectWallet({ projectId, chains }),
+      argentWallet({projectId,chains}),
+      metaMaskWallet({projectId,chains}),
+      coinbaseWallet({projectId,chains}),
+      braveWallet({projectId,chains}),
+      ledgerWallet({projectId,chains}),
+      phantomWallet({projectId,chains}),
+      trustWallet({projectId,chains})
+    ],
+  },
+]);
 const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
+  connectors,
   publicClient
 })
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
+
 export default function rainbow  ({children})  {
 
 
@@ -27,12 +72,11 @@ export default function rainbow  ({children})  {
   
     return (
       <>
-      <WagmiConfig config={wagmiConfig}>
-            {children}
-
-
-      </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains} modalSize="compact">
+        {children}
+      </RainbowKitProvider>
+    </WagmiConfig>
       </>
     );
   };

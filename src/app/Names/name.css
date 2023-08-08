@@ -1,0 +1,74 @@
+.names{
+    position: absolute;
+    background:white;
+    min-height:100vh;
+    width:100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.namesc{
+    position: relative;
+    display: flex;
+    height:100%;
+    width:100%;
+    padding: 10vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.namescb{
+    position: relative;
+    display: flex;
+    height:100%;
+    width:100%;
+    padding: 5vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:2vh;
+}
+
+.headern{
+    position: relative;
+    height:10vh;
+    width: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.domainname{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:10%;
+    width:70vw;
+    height:10vh;
+    border-radius: 20px;
+background: #CACACA;
+}
+.domainname:hover{
+    transform: scale(1.1);
+    background: #B800F8;
+    color:white;
+}
+.domaint{
+    font-size: 28px;
+    color: #B800F8;
+}
+.dataname{
+    color:red;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width:90%;
+    align-items: center;
+    justify-content: center;
+    -webkit-text-stroke-width: 1px;
+}

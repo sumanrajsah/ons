@@ -20,7 +20,7 @@
                 "type": "string"
             }
         ],
-        "name": "EmailExtensionSet",
+        "name": "DomainExtensionSet",
         "type": "event"
     },
     {
@@ -35,7 +35,32 @@
             {
                 "indexed": true,
                 "internalType": "string",
-                "name": "emailAddress",
+                "name": "domainAddress",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "salePrice",
+                "type": "uint256"
+            }
+        ],
+        "name": "DomainListedForSale",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "walletAddress",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "string",
+                "name": "domainAddress",
                 "type": "string"
             },
             {
@@ -51,7 +76,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "EmailRegistered",
+        "name": "DomainRegistered",
         "type": "event"
     },
     {
@@ -64,7 +89,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "EmailRegistrationPriceSet",
+        "name": "DomainRegistrationPriceSet",
         "type": "event"
     },
     {
@@ -77,7 +102,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "EmailRenewalPriceSet",
+        "name": "DomainRenewalPriceSet",
         "type": "event"
     },
     {
@@ -92,7 +117,7 @@
             {
                 "indexed": true,
                 "internalType": "string",
-                "name": "emailAddress",
+                "name": "domainAddress",
                 "type": "string"
             },
             {
@@ -102,7 +127,38 @@
                 "type": "uint256"
             }
         ],
-        "name": "EmailRenewed",
+        "name": "DomainRenewed",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "buyerAddress",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sellerAddress",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "salePrice",
+                "type": "uint256"
+            }
+        ],
+        "name": "DomainSold",
         "type": "event"
     },
     {
@@ -117,21 +173,79 @@
             {
                 "indexed": true,
                 "internalType": "string",
-                "name": "emailAddress",
+                "name": "domainAddress",
                 "type": "string"
             }
         ],
-        "name": "EmailUnregistered",
+        "name": "DomainUnregistered",
         "type": "event"
     },
     {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "walletAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "primaryDomain",
+                "type": "string"
+            }
+        ],
+        "name": "PrimaryDomainRemoved",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            }
+        ],
+        "name": "buyDomain",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
         "inputs": [],
-        "name": "countRegisteredEmails",
+        "name": "getAllDomainExtensions",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "string[]",
                 "name": "",
-                "type": "uint256"
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllRegisteredDomains",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getContractOwner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
             }
         ],
         "stateMutability": "view",
@@ -145,20 +259,7 @@
                 "type": "address"
             }
         ],
-        "name": "getEmail",
-        "outputs": [
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getEmailAddresses",
+        "name": "getDomain",
         "outputs": [
             {
                 "internalType": "string[]",
@@ -172,37 +273,17 @@
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "walletAddress",
-                "type": "address"
+                "internalType": "string",
+                "name": "domain",
+                "type": "string"
             }
         ],
-        "name": "getEmailDetails",
+        "name": "getDomainAddressByDomain",
         "outputs": [
             {
-                "internalType": "string",
+                "internalType": "address",
                 "name": "",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
+                "type": "address"
             }
         ],
         "stateMutability": "view",
@@ -211,12 +292,17 @@
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "walletAddress",
+                "type": "address"
+            },
+            {
                 "internalType": "string",
-                "name": "email",
+                "name": "domainAddress",
                 "type": "string"
             }
         ],
-        "name": "getEmailDetailsByEmail",
+        "name": "getDomainDetails",
         "outputs": [
             {
                 "internalType": "string",
@@ -227,6 +313,11 @@
                 "internalType": "string",
                 "name": "",
                 "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             },
             {
                 "internalType": "uint256",
@@ -244,9 +335,159 @@
                 "type": "bool"
             },
             {
-                "internalType": "address",
+                "internalType": "bool",
                 "name": "",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domain",
+                "type": "string"
+            }
+        ],
+        "name": "getDomainDetailsByDomain",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "domainName",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "domainExtension",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "registrationTimestamp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "expiryTimestamp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "gracePeriod",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "isRegistered",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "forSale",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "salePrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "walletAddress",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "imageUrl",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct DomainRegistration.Domain[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDomainExpiryDuration",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            }
+        ],
+        "name": "getDomainImage",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "walletAddress",
                 "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            }
+        ],
+        "name": "getDomainIndex",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDomainRegistrationDuration",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -260,63 +501,12 @@
                 "type": "address"
             }
         ],
-        "name": "getEmailExpiry",
+        "name": "getPrimaryDomainByWalletAddress",
         "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
             {
                 "internalType": "string",
                 "name": "",
                 "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getEmailExpiryDuration",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getEmailRegistrationDuration",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -366,10 +556,42 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "getTotalRegisteredDomainsCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "walletAddress",
+                "type": "address"
+            }
+        ],
+        "name": "getUserDomainCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "string",
-                "name": "email",
+                "name": "domain",
                 "type": "string"
             }
         ],
@@ -387,12 +609,36 @@
     {
         "inputs": [
             {
+                "internalType": "string",
+                "name": "primaryDomain",
+                "type": "string"
+            }
+        ],
+        "name": "getWalletAddressByPrimaryDomain",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            },
+            {
                 "internalType": "uint256",
-                "name": "additionalDurationInYears",
+                "name": "increaseDurationInYears",
                 "type": "uint256"
             }
         ],
-        "name": "increaseEmailDuration",
+        "name": "increaseDomainDuration",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -401,11 +647,11 @@
         "inputs": [
             {
                 "internalType": "string",
-                "name": "emailExtension",
+                "name": "domainExtension",
                 "type": "string"
             }
         ],
-        "name": "isEmailExtensionRegistered",
+        "name": "isDomainExtensionRegistered",
         "outputs": [
             {
                 "internalType": "bool",
@@ -420,30 +666,16 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "walletAddress",
+                "name": "userAddress",
                 "type": "address"
-            }
-        ],
-        "name": "isEmailRegistered",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
+            },
             {
                 "internalType": "string",
-                "name": "email",
+                "name": "domainAddress",
                 "type": "string"
             }
         ],
-        "name": "isEmailRegisteredByEmail",
+        "name": "isDomainListedForSale",
         "outputs": [
             {
                 "internalType": "bool",
@@ -458,12 +690,54 @@
         "inputs": [
             {
                 "internalType": "string",
-                "name": "emailName",
+                "name": "domain",
+                "type": "string"
+            }
+        ],
+        "name": "isDomainRegisteredByDomain",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "salePrice",
+                "type": "uint256"
+            }
+        ],
+        "name": "listDomainForSale",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainName",
                 "type": "string"
             },
             {
                 "internalType": "string",
-                "name": "emailExtension",
+                "name": "domainExtension",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "imageUrl",
                 "type": "string"
             },
             {
@@ -472,7 +746,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "registerEmail",
+        "name": "registerDomain",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -481,24 +755,42 @@
         "inputs": [
             {
                 "internalType": "string",
-                "name": "emailExtension",
+                "name": "domainExtension",
                 "type": "string"
             }
         ],
-        "name": "registerEmailExtension",
+        "name": "registerDomainExtension",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "inputs": [
+            {
+                "internalType": "address",
+                "name": "walletAddress",
+                "type": "address"
+            }
+        ],
+        "name": "removePrimaryDomainFromWalletAddress",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            },
             {
                 "internalType": "uint256",
                 "name": "renewalDurationInYears",
                 "type": "uint256"
             }
         ],
-        "name": "renewEmail",
+        "name": "renewDomain",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -511,20 +803,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "setEmailExpiryDuration",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "newExtension",
-                "type": "string"
-            }
-        ],
-        "name": "setEmailExtension",
+        "name": "setDomainExpiryDuration",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -537,7 +816,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "setEmailRegistrationDuration",
+        "name": "setDomainRegistrationDuration",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -550,7 +829,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "setEmailRegistrationPrice",
+        "name": "setDomainRegistrationPrice",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -563,14 +842,20 @@
                 "type": "uint256"
             }
         ],
-        "name": "setEmailRenewalPrice",
+        "name": "setDomainRenewalPrice",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "unregisterEmail",
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "duration",
+                "type": "uint256"
+            }
+        ],
+        "name": "setIncreaseOfferDuration",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -579,11 +864,94 @@
         "inputs": [
             {
                 "internalType": "string",
-                "name": "emailExtension",
+                "name": "primaryDomain",
                 "type": "string"
             }
         ],
-        "name": "unregisterEmailExtension",
+        "name": "setPrimaryDomainToWalletAddress",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "duration",
+                "type": "uint256"
+            }
+        ],
+        "name": "setRegisterationOfferDuration",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "duration",
+                "type": "uint256"
+            }
+        ],
+        "name": "setRenewalOfferDuration",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            }
+        ],
+        "name": "unregisterDomain",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainExtension",
+                "type": "string"
+            }
+        ],
+        "name": "unregisterDomainExtension",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "domainAddress",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "newImageUrl",
+                "type": "string"
+            }
+        ],
+        "name": "updateDomainImage",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

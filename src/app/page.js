@@ -10,16 +10,17 @@ export default function Home() {
       <div className="homec">
       <header className="header">
        <div className="logoc">
-        <Image src="/logo.png" className="logo" width={500} height={500} alt="One Mail"/>
-       </div><div className="logon">ONE MAIL</div>
+        <Image src="/logo.png" className="logo" width={500} height={500} alt="ONS"/>
+       </div><div className="logon">ONS</div>
        <nav className="nav">
-        <Link href='/App'><button className="buttont">Mail App</button></Link>
+        <Link href='/Check'><button className="button-17">Register</button></Link>
+        <Link href='/Whitepaper'><button className="button-17">Whitepaper</button></Link>
        </nav>
     </header>
     <div className='bodyc'>
-    <div className='onew'>ONE WALLET, ONE EMAIL<br/> With<br/> ONE MAIL</div>
-    <div className="homeh2">Register Your web3 Email Now</div>
-    <Link href='/Check'><button className="buttonr">Register now</button></Link>
+    <div className='onew'>ONE WALLET, ONE DOMAIN<br/> With<br/> ONE NAME SERVICE</div>
+    <div className="homeh2">Register Your web3 Domain Now</div>
+    <Link href='/Check'><button className="button-17">Register now</button></Link>
     <div className='boxc'>
             <div className='box'>
               <div className='imag'><Image alt="One Mail" height={100} width={100} src='/checks.png'/></div>
