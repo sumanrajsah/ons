@@ -41,7 +41,7 @@ const { chains, publicClient } = configureChains(
     publicProvider()
   ]
 );
-const projectId = process.env.PROJECT_ID;
+const projectId = process.env.NEXT_PUBLIC_ID;
 const connectors = connectorsForWallets([
   {
     groupName: 'Recommended',
@@ -60,7 +60,7 @@ const connectors = connectorsForWallets([
   },
 ]);
 const wagmiConfig = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   publicClient
 })

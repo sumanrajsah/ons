@@ -14,6 +14,12 @@ import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
 
 export default function Profile() {
     const { address,isConnected } = useAccount();
+
+    const [isClient, setIsClient] = useState(false)
+ 
+    useEffect(() => {
+      setIsClient(true)
+    }, [])
     
 
 

@@ -11,7 +11,7 @@ import Connect from "../components/connect"
 import { useChainModal } from "@rainbow-me/rainbowkit";
 
 
-export default function Search() {
+export default function Check() {
     const { address,isConnected } = useAccount();
     const [inputValue, setInputValue] = useState(""); // State to manage the input value
     const [selectedOption, setSelectedOption] = useState(".one"); // Default selected option is ".one"
@@ -78,7 +78,7 @@ export default function Search() {
                 Get your Domain and Web3 Username with <span className='omailt'>ONS</span>
             </div>
             <div className="extbc">
-            <div class="radio-inputs">
+            <div className="radio-inputs">
   <label className="radio">
     <input type="radio" name="radio" value='.one'checked={selectedOption === '.one'}  onChange={(e) => setSelectedOption(e.target.value)}/>
     <span className="name">.one</span>

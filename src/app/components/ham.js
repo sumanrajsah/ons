@@ -1,8 +1,9 @@
+
 "use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import './ham.css'
-import '../Register/register.css'
+//import '../Register/register.css'
 
 export default function Ham() {
 

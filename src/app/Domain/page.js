@@ -6,6 +6,7 @@ import ABI from '../components/abi.json';
 import './domain.css';
 import Connect from '../components/connect';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Domain({ searchParams }) {
   const domainName = searchParams.domainName;
@@ -16,6 +17,12 @@ export default function Domain({ searchParams }) {
   const [imageCid, setImageCid] = useState('');
   const [profileD, setProfile] = useState('');
 const router =useRouter();
+
+const [isClient, setIsClient] = useState(false)
+ 
+useEffect(() => {
+  setIsClient(true)
+}, [])
 
 
   const { data: imageData } = useContractRead({
@@ -57,7 +64,7 @@ const router =useRouter();
 
           <div className='dimage'>
             {imageCid ? (
-              <img src={`https://ipfs.io/ipfs/${imageCid}`} alt={domainName + domainExt + ' : ' + imageCid} width={100} />
+              <Image height={100} width={100} src={`https://ipfs.io/ipfs/${imageCid}`} alt={domainName + domainExt + ' : ' + imageCid}  />
             ) : (
               'Loading Image...'
             )}

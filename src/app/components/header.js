@@ -12,7 +12,7 @@ export default function Header() {
     <>
       <header className="headerh">
        <div className="logoc">
-        <Image src="/logo.png" priority={true} className="logo" width={100} height={100} alt="One Mail"/>
+        <Image src="/ons1.png" priority={true} className="logo" width={100} height={100} alt="One Mail"/>
        </div>
     </header>
     <div className="navigation">

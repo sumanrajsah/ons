@@ -2,16 +2,23 @@
 import "./home.css"
 import Image from "next/image"
 import Link from "next/link"
+import react,{useEffect,useState} from "react"
 
 export default function Home() {
+
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <div className="home">
       <div className="homec">
       <header className="header">
        <div className="logoc">
-        <Image src="/logo.png" className="logo" width={500} height={500} alt="ONS"/>
-       </div><div className="logon">ONS</div>
+        <Image src="/ons2.png" className="logo" width={100} height={100} alt="ONS"/>
+       </div>
        <nav className="nav">
         <Link href='/Check'><button className="button-17">Register</button></Link>
         <Link href='/Whitepaper'><button className="button-17">Whitepaper</button></Link>

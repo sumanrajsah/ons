@@ -13,7 +13,11 @@ import Image from 'next/image'
 
 
 export default function Connect() {
-
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   const{address,isConnected} = useAccount();
   const {chain} = useNetwork();
   const {openAccountModal} = useAccountModal();
@@ -60,7 +64,7 @@ export default function Connect() {
                     <Link                 href={{
                     pathname:'./Profile',
                     query:{
-                      use:address,
+                      user:address,
                     }
                 }} ><button className='dbutton'>Profile</button></Link>
                     <button className='dbutton' onClick={() => disconnect()} style={{color:'red',fontWeight:'900',fontSize:'24px'}}><Image src='/logout.png' className='logicon' height={100} width={100} alt='user'/><div>Disconnect</div></button>

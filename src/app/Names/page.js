@@ -12,17 +12,24 @@ import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
 
 
 
-export default function Names() {
+export default function Names({searchParams}) {
     const { address,isConnected } = useAccount();
     const {chain} = useNetwork();
     const { openChainModal } = useChainModal();
     const { openConnectModal } = useConnectModal();
+    const domainAdd = searchParams.user;
+
+    const [isClient, setIsClient] = useState(false)
+ 
+    useEffect(() => {
+      setIsClient(true)
+    }, [])
 
     const { data } = useContractRead({
         address: '0x371f4fea7a6f13aa4e2e0adf790ff8e8e351bd45',
         abi: ABI,
         functionName: 'getDomain',
-        args: [address],
+        args: [domainAdd],
     });
     
 
@@ -35,19 +42,7 @@ export default function Names() {
             {isConnected && (chain.name === 'Sepolia') ?(<div className="namesc">
             <div className="domaint">All domain Registerd to your Wallet Address</div>
             <div className="data">Click to Manage your domains</div>
-        <div className="namescb">
-                    {data && data.map((item, index) => (
-                        <div>
-                       <Link
-                       href={{
-                           pathname:'./Domain',
-                           query:{
-                               domainAdd:(item)
-                           }
-                       }}
-                       > <button className="domainname" key={index}>{item} &rarr;</button></Link></div>
-                    ))}
-                </div>
+            {data}
                 </div>):!isConnected ?(<div className="dataname">PLEASE CONNECT YOUR WALLET <br/><br/><button onClick={openConnectModal} className="buttonconnect">Connect Wallet</button> </div>):(<div className="dataname"> CHECK YOU ARE CONNECTION <br/><br/><button onClick={openChainModal} className="buttonconnect">Change Network</button></div>)}
        
 </div>
