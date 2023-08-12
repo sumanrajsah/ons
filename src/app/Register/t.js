@@ -17,8 +17,7 @@ import { Blocks } from  'react-loader-spinner';
 import { createHelia } from 'helia';
 import { strings } from '@helia/strings';
 import { unixfs } from "@helia/unixfs";
-import last from 'it-last';
-import { MemoryBlockstore } from "blockstore-core";
+
 
 
 
@@ -34,7 +33,6 @@ export default function Register({ searchParams }) {
 
   const [isClient, setIsClient] = useState(false)
  
-const blockstore = new MemoryBlockstore();
 
 
 
@@ -61,34 +59,32 @@ const blockstore = new MemoryBlockstore();
   }
   const [selectedImage, setSelectedImage] = useState(null);
   const [pImage, setImage] = useState(1);
-  const [imageName, setImageName] = useState('');
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     handleImage(file);
-    console.log(file.name);
-    setImageName(file.name)
     //document.getElementById('uploadb').style.display = 'flex';
     setSelectedImage(file);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
+    const file = e.target.files[0];
     handleImage(file);
-    setImageName(file.name)
   };
 
   const handleImage = (file) => {
     const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setSelectedImage(reader.result);
+    reader.onloadend = (e) => {
+      const base64Data = e.target.result;
+      setSelectedImage(base64Data);
+      console.log('base64: ',base64Data)
     };
 
     if (file) {
       reader.readAsDataURL(file);
-      setImageName(file.name)
     }
   };
 
@@ -96,22 +92,15 @@ const blockstore = new MemoryBlockstore();
     e.preventDefault();
   };
 
-  const storeImageOnIPFS = async (selectedImage,imageName) => {
+  const storeImageOnIPFS = async (selectedImage) => {
     // IPFS configuration code...
     const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
     console.log(bufferData);
-    const helia = await createHelia({blockstore});
-    console.log(helia)
-    const fs = unixfs(helia)
-    console.log('name: ',imageName)
-
-    const fileToAdd = {
-        path: `${imageName}`,
-        content: bufferData
-      }
+    const helia = await createHelia();
+    const store = strings(helia)
     try {
-        const cid = await fs.addFile(fileToAdd);
-      console.log(cid);
+      const cid = await store.add(bufferData);
+
       const finalCid = cid;
       //console.log('Image stored on IPFS with CID:', cid.toString());
       console.log(finalCid);
@@ -127,7 +116,7 @@ const blockstore = new MemoryBlockstore();
     //const file = e.target.files[0];
 
     try {
-      await storeImageOnIPFS(selectedImage,imageName);
+      await storeImageOnIPFS(selectedImage);
     } catch (error) {
       console.error('Error storing Image on IPFS:', error);
     }
@@ -147,6 +136,19 @@ const blockstore = new MemoryBlockstore();
   console.log(txhash?.hash)
 
   const [remainingTime, setRemainingTime] = useState(10); // Initial value is 10 seconds
+
+  // useEffect to listen for changes in the isSuccess variable
+  useEffect(() => {
+    if (tx) {
+      // Redirect to the desired page after 10 seconds
+      const timer = setTimeout(() => {
+        router.push('/Check'); // Replace 'success-page' with your desired page's URL
+      }, 10000); // 10 seconds in milliseconds
+
+      // Clear the timer when the component is unmounted to avoid memory leaks
+      return () => clearTimeout(timer);
+    }
+  }, [tx,router]);
 
   // useEffect to update the countdown timer every second
   useEffect(() => {
@@ -168,11 +170,11 @@ const blockstore = new MemoryBlockstore();
   }
 
   return (
-    <div className='register'>
+    <div className='Register'>
               <header className='headerr'>
           <Header />
         </header>
-      <div className='registerc'>
+      <div className='Registerc'>
       {isConnected && (chain.name === 'Sepolia') ?(<div className='rbody'>
         <div className="buttonc">
             {!isConnected && <div className="data">Connect Your Wallet</div>}
@@ -196,7 +198,7 @@ const blockstore = new MemoryBlockstore();
               <label htmlFor="fileInput" onDrop={handleDrop} onDragOver={handleDragOver}  className="dropimgc">
                   {selectedImage ? (
                     <div>
-                      <Image src={selectedImage} alt="Preview" width={200} height={200} />
+                      <Image src={selectedImage} alt="Preview" width={150} height={150} />
                     </div>
                   ) : (
                     <div className="dropimg">
@@ -213,7 +215,7 @@ const blockstore = new MemoryBlockstore();
                   style={{ display: "none" }}
                 />
               </div>
-             {selectedImage && <button onClick={handleFormSubmit} className="button-18" id='uploadb'>Save Image</button>}
+             {selectedImage && <button onClick={handleFormSubmit} className="button-18" id='uploadb'>Upload Image On IPFS</button>}
               {selectedImage && fcid && <Link target="_blank" href={`https://ipfs.io/ipfs/${fcid}`}><button className="button-18" id='previewb'>Preview Image</button></Link>}
               {selectedImage && fcid && <button className="buttont" id="registerb" disabled={!write} onClick={() => write?.()}>Register</button>}
             </div>):tx && (<div className="dname">Redirect to your domain page in {remainingTime} seconds</div>)}

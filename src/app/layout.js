@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import Wagmi from '@/app/wagmi'
 
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -17,7 +18,10 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Wagmi>
         {children}
-        </Wagmi></body>
+        </Wagmi>
+
+        </body>
+        
     </html>
   )
 }
