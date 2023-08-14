@@ -15,33 +15,28 @@ import { useRouter } from 'next/navigation';
 import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
 import { Blocks } from  'react-loader-spinner';
 import { InfinitySpin } from  'react-loader-spinner';
-import { createHelia } from 'helia';
-import { strings } from '@helia/strings';
-import { unixfs } from "@helia/unixfs";
-import last from 'it-last';
-import { MemoryBlockstore } from "blockstore-core";
 import { useStorageUpload } from "@thirdweb-dev/react";
 
 
 
 export default function Register({ searchParams }) {
-  const domainName = searchParams.domainName;
+  const domainName = (searchParams.domainName);
   const domainExt = searchParams.domainExt;
+  console.log(domainName)
   //console.log(domainName + domainExt);
   const {isConnected,address} = useAccount();
-  const router = useRouter();
   const { openChainModal } = useChainModal();
   const { openConnectModal } = useConnectModal();
   const {chain} = useNetwork();
 
   const [isClient, setIsClient] = useState(false)
  
-const blockstore = new MemoryBlockstore();
 
 
 
   const [years, setYears] = useState(1);
   const [fcid, setCid] = useState('');
+  const [mcid, setmCid] = useState('');
   const { data } = useContractRead({
     address: '0x371f4fea7a6f13aa4e2e0adf790ff8e8e351bd45',
     abi: ABI,
@@ -62,7 +57,6 @@ const blockstore = new MemoryBlockstore();
     }
   }
   const [selectedImage, setSelectedImage] = useState(null);
-  const [pImage, setImage] = useState(1);
   const [imageName, setImageName] = useState('');
 
   const handleImageChange = (e) => {
@@ -107,10 +101,11 @@ const blockstore = new MemoryBlockstore();
   };
 
  // ... (other imports)
- const [isStoringImage, setIsStoringImage] = useState(false); // State to track image storing process
- const [isImageUploaded, setImageUploaded] = useState(false); // State to track image storing process
+ const [isStoringImage, setIsStoringImage] = useState(false); 
+ const [isImageUploaded, setImageUploaded] = useState(false); 
+ const [ismcidu, setmcidu] = useState(false); 
  const { mutateAsync } = useStorageUpload()
-const storeImageOnIPFS = async (selectedImage) => {
+const storeImageOnIPFS = async (selectedImage,imageName) => {
   setIsStoringImage(true)
   const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
   console.log(bufferData);
@@ -136,21 +131,38 @@ const storeImageOnIPFS = async (selectedImage) => {
   
   // ... (other code)
   
-  const handleFormSubmit = async (e) => {
-    //e.preventDefault();
-    //const file = e.target.files[0];
-
+  const handleFormSubmit = async () => {
     try {
       await storeImageOnIPFS(selectedImage,imageName);
     } catch (error) {
       console.error('Error storing Image on IPFS:', error);
     }
   };
+
+  const storeMetadata = async ()=> {
+    setmcidu(true)
+    try {
+      const metadata = { "name": `${domainName+domainExt}`,"domainName":`${domainName}`,"domainExt":`${domainExt}`,"image":`ipfs://${fcid}` };
+      const muris = await mutateAsync({
+        data: [metadata],
+        options: { uploadWithGatewayUrl: false, uploadWithoutDirectory: true },
+      });
+      console.log((muris[0].replace("ipfs://", "")))
+      setmCid((muris[0].replace("ipfs://", "")));
+      setmcidu(false)
+      
+   // alert('image stored successfully!')
+  } catch (error) {
+    console.error('Error uploading Metadata:', error);
+    alert("Please Try Again Metadata Not stored")
+    setmcidu(false)
+  }
+  }
   const { config } = usePrepareContractWrite({
     address: '0x371f4fea7a6f13aa4e2e0adf790ff8e8e351bd45',
     abi: ABI,
     functionName: 'registerDomain',
-    args: [domainName,domainExt,fcid,years],
+    args: [domainName,domainExt,mcid,years],
     value: data,
   })
   const {data:txhash, write,isSuccess,isLoading } = useContractWrite(config)
@@ -178,7 +190,7 @@ const storeImageOnIPFS = async (selectedImage) => {
   }, [])
   useEffect(() => {
    if(isImageUploaded){
-   setIsStoringImage(true)
+   setIsStoringImage(false)
    }
   }, [isImageUploaded])
 
@@ -240,7 +252,7 @@ const storeImageOnIPFS = async (selectedImage) => {
                 Save Image
               </button>
             ) : (
-              <div>Image uploaded successfully</div>
+              <div className="success"> &#10003; Successfully Uploaded</div>
             )
           ) : (
             <InfinitySpin 
@@ -251,8 +263,13 @@ const storeImageOnIPFS = async (selectedImage) => {
         ) : null}
 <br/>
 
-              {selectedImage && fcid && <Link target="_blank" href={`https://ipfs.io/ipfs/${fcid}`}><button className="button-18" id='previewb'>Preview Image</button></Link>}<br/>
-              {selectedImage && fcid && <button className="buttont" id="registerb" disabled={!write} onClick={() => write?.()}>Register</button>}
+              {selectedImage && fcid && <Link target="_blank" href={`https://ipfs.io/ipfs/${fcid}`}><button className="button-18" id='previewb'>View Image</button></Link>}<br/>
+             {fcid && (!ismcidu ?(<button className="button-18" onClick={storeMetadata}>Upload Metadata</button>):            <InfinitySpin 
+              width='200'
+              color="#B800F8"
+            />)}<br/>
+             {mcid &&  <Link target="_blank" href={`https://ipfs.io/ipfs/${mcid}`}><button className="button-18" id='previewb'>View metadata</button></Link>}<br/>
+              {selectedImage && fcid && mcid && <button className="buttont" id="registerb" disabled={!write} onClick={() => write?.()}>Register</button>}
             </div>):tx && (<div className="dname">Redirect to your domain page in {remainingTime} seconds</div>)}
             <br/>
             {isLoading || isSuccess ? (

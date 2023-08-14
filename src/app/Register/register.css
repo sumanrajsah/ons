@@ -184,3 +184,9 @@
     justify-content: center;
     gap: 20px;
   }
+  .success{
+    position: relative;
+    color: green;
+    font-weight: 900;
+    font-size: 18px;
+  }
