@@ -180,7 +180,7 @@ const storeImageOnIPFS = async (selectedImage) => {
    if(isImageUploaded){
    setIsStoringImage(true)
    }
-  }, [])
+  }, [isImageUploaded])
 
   if (!isClient) {
     return null; // Return nothing during prerendering
