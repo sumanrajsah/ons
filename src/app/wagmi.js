@@ -31,6 +31,7 @@ import {
 import { publicProvider } from 'wagmi/providers/public';
 import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { ThirdwebProvider } from '@thirdweb-dev/react';
 
 
 
@@ -74,7 +75,9 @@ export default function rainbow  ({children})  {
       <>
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} modalSize="compact">
+      <ThirdwebProvider clientId='aaa3991aa7457b41856c2b336a3ad746'>
         {children}
+        </ThirdwebProvider>
       </RainbowKitProvider>
     </WagmiConfig>
       </>
