@@ -14,6 +14,7 @@ import { parseEther } from "viem";
 import { useRouter } from 'next/navigation';
 import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
 import { Blocks } from  'react-loader-spinner';
+import { InfinitySpin } from  'react-loader-spinner';
 import { createHelia } from 'helia';
 import { strings } from '@helia/strings';
 import { unixfs } from "@helia/unixfs";
@@ -71,6 +72,8 @@ const blockstore = new MemoryBlockstore();
     setImageName(file.name)
     //document.getElementById('uploadb').style.display = 'flex';
     setSelectedImage(file);
+    setIsStoringImage(false)
+    setImageUploaded(false)
   };
 
   const handleDrop = (e) => {
@@ -78,10 +81,14 @@ const blockstore = new MemoryBlockstore();
     const file = e.dataTransfer.files[0];
     handleImage(file);
     setImageName(file.name)
+    setIsStoringImage(false)
+    setImageUploaded(false)
   };
 
   const handleImage = (file) => {
     const reader = new FileReader();
+    setIsStoringImage(false)
+    setImageUploaded(false)
 
     reader.onloadend = () => {
       setSelectedImage(reader.result);
@@ -95,23 +102,32 @@ const blockstore = new MemoryBlockstore();
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    setIsStoringImage(false)
+    setImageUploaded(false)
   };
 
  // ... (other imports)
+ const [isStoringImage, setIsStoringImage] = useState(false); // State to track image storing process
+ const [isImageUploaded, setImageUploaded] = useState(false); // State to track image storing process
  const { mutateAsync } = useStorageUpload()
 const storeImageOnIPFS = async (selectedImage) => {
+  setIsStoringImage(true)
   const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
   console.log(bufferData);
       try {
-          const uploadUrl = await mutateAsync({
+          const uris = await mutateAsync({
             data: [bufferData],
-            options: { uploadWithGatewayUrl: true, uploadWithoutDirectory: true },
+            options: { uploadWithGatewayUrl: false, uploadWithoutDirectory: true },
           });
-          console.log(uploadUrl[0])
-          setCid(uploadUrl[0])
-        
+          console.log((uris[0].replace("ipfs://", "")))
+          setCid((uris[0].replace("ipfs://", "")))
+        setIsStoringImage(false)
+        setImageUploaded(true)
+       // alert('image stored successfully!')
       } catch (error) {
         console.error('Error uploading image:', error);
+        alert("Please Try Again Image Not stored")
+        setIsStoringImage(false)
       }
 
   
@@ -159,6 +175,11 @@ const storeImageOnIPFS = async (selectedImage) => {
 
   useEffect(() => {
     setIsClient(true)
+  }, [])
+  useEffect(() => {
+   if(isImageUploaded){
+   setIsStoringImage(true)
+   }
   }, [])
 
   if (!isClient) {
@@ -212,8 +233,25 @@ const storeImageOnIPFS = async (selectedImage) => {
                   style={{ display: "none" }}
                 />
               </div>
-             {selectedImage && <button onClick={handleFormSubmit} className="button-18" id='uploadb'>Save Image</button>}
-              {selectedImage && fcid && <Link target="_blank" href={fcid}><button className="button-18" id='previewb'>Preview Image</button></Link>}
+              {selectedImage ? (
+          !isStoringImage ? (
+            !isImageUploaded ? (
+              <button onClick={handleFormSubmit} className="button-18" id='uploadb'>
+                Save Image
+              </button>
+            ) : (
+              <div>Image uploaded successfully</div>
+            )
+          ) : (
+            <InfinitySpin 
+              width='200'
+              color="#B800F8"
+            />
+          )
+        ) : null}
+<br/>
+
+              {selectedImage && fcid && <Link target="_blank" href={`https://ipfs.io/ipfs/${fcid}`}><button className="button-18" id='previewb'>Preview Image</button></Link>}<br/>
               {selectedImage && fcid && <button className="buttont" id="registerb" disabled={!write} onClick={() => write?.()}>Register</button>}
             </div>):tx && (<div className="dname">Redirect to your domain page in {remainingTime} seconds</div>)}
             <br/>
