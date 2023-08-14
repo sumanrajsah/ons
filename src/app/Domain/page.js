@@ -64,7 +64,7 @@ useEffect(() => {
 
           <div className='dimage'>
             {imageCid ? (
-              <Image height={100} width={100} src={`https://ipfs.io/ipfs/${imageCid}`} alt={domainName + domainExt + ' : ' + imageCid}  />
+              <Image height={100} width={100} src={`https://ipfs.io/ipfs/${imageCid}/`} alt={domainName + domainExt + ' : ' + imageCid}  />
             ) : (
               'Loading Image...'
             )}

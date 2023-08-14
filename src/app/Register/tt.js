@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic'
 //import { useRouter } from "next/router";
 import './register.css';
 import Header from "../components/header";
@@ -7,15 +8,17 @@ import ABI from '../components/abi.json';
 import { useContractRead } from "wagmi";
 import Connect from "../components/connect";
 import Image from "next/image";
-import { create } from 'ipfs-http-client';
-import { Buffer } from 'buffer';
 import Link from "next/link";
 import { document } from "postcss";
 import { useAccount,useContractWrite,usePrepareContractWrite,useWaitForTransaction,useNetwork } from "wagmi";
 import { parseEther } from "viem";
 import { useRouter } from 'next/navigation';
 import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
-import { Blocks } from  'react-loader-spinner'
+import { Blocks } from  'react-loader-spinner';
+import { createHelia } from 'helia';
+import { strings } from '@helia/strings';
+import { unixfs } from "@helia/unixfs";
+import {create} from 'kubo-rpc-client';
 
 
 
@@ -57,9 +60,11 @@ export default function Register({ searchParams }) {
     }
   }
   const [selectedImage, setSelectedImage] = useState(null);
+  const [pImage, setImage] = useState(1);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     handleImage(file);
     //document.getElementById('uploadb').style.display = 'flex';
     setSelectedImage(file);
@@ -67,15 +72,17 @@ export default function Register({ searchParams }) {
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.dataTransfer.files[0];
+    const file = e.target.files[0];
     handleImage(file);
   };
 
   const handleImage = (file) => {
     const reader = new FileReader();
 
-    reader.onloadend = () => {
-      setSelectedImage(reader.result);
+    reader.onloadend = (e) => {
+      const base64Data = e.target.result;
+      setSelectedImage(base64Data);
+      console.log('base64: ',base64Data)
     };
 
     if (file) {
@@ -88,23 +95,28 @@ export default function Register({ searchParams }) {
   };
 
   const storeImageOnIPFS = async (selectedImage) => {
+    
     // IPFS configuration code...
     const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-    const projectId = '2SLeAOxpbcMhUjr0PAyUsmGVJKb';
-    const projectSecret = 'fdc0aedf83e590ca14590ed72e9c3968';
-    const auth = 'Basic ' + btoa(projectId + ':' + projectSecret);
-    const ipfs = create({
-      host: 'ipfs.infura.io',
+    console.log(bufferData);
+    const projectId = "2SLeAOxpbcMhUjr0PAyUsmGVJKb";
+    const projectSecret = "fdc0aedf83e590ca14590ed72e9c3968";
+    const auth =
+      "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+    
+    const client = create({
+      host: "ipfs.infura.io",
       port: 5001,
-      protocol: 'https',
+      protocol: "https",
       headers: {
         authorization: auth,
       },
     });
     try {
-      const {cid} = await ipfs.add(bufferData);
-      const finalCid = cid.toString();
-      //console.log('Image stored on IPFS with CID:', cid.toString());
+      const cid = await client.add(bufferData);
+
+      const finalCid = cid.path;
+      //console.log('Image stored on IPFS with CID:', cid.toString();
       console.log(finalCid);
       setCid(finalCid);
       //document.getElementById('previewb').style.display = 'flex';
@@ -177,7 +189,6 @@ export default function Register({ searchParams }) {
           <Header />
         </header>
       <div className='Registerc'>
-
       {isConnected && (chain.name === 'Sepolia') ?(<div className='rbody'>
         <div className="buttonc">
             {!isConnected && <div className="data">Connect Your Wallet</div>}

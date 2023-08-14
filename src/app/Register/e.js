@@ -13,10 +13,9 @@ import { useAccount,useContractWrite,usePrepareContractWrite,useWaitForTransacti
 import { parseEther } from "viem";
 import { useRouter } from 'next/navigation';
 import { useChainModal,useConnectModal } from "@rainbow-me/rainbowkit";
-import { Blocks } from  'react-loader-spinner';
-import { createHelia } from 'helia';
-import { strings } from '@helia/strings';
-import { unixfs } from "@helia/unixfs";
+import { Blocks } from  'react-loader-spinner'
+import axios from "axios";
+import storeImageOnIPFS from "./store";
 
 
 
@@ -30,7 +29,6 @@ export default function Register({ searchParams }) {
   const { openChainModal } = useChainModal();
   const { openConnectModal } = useConnectModal();
   const {chain} = useNetwork();
-
   const [isClient, setIsClient] = useState(false)
  
 
@@ -58,11 +56,9 @@ export default function Register({ searchParams }) {
     }
   }
   const [selectedImage, setSelectedImage] = useState(null);
-  const [pImage, setImage] = useState(1);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     handleImage(file);
     //document.getElementById('uploadb').style.display = 'flex';
     setSelectedImage(file);
@@ -70,17 +66,15 @@ export default function Register({ searchParams }) {
 
   const handleDrop = (e) => {
     e.preventDefault();
-    const file = e.target.files[0];
+    const file = e.dataTransfer.files[0];
     handleImage(file);
   };
 
   const handleImage = (file) => {
     const reader = new FileReader();
 
-    reader.onloadend = (e) => {
-      const base64Data = e.target.result;
-      setSelectedImage(base64Data);
-      console.log('base64: ',base64Data)
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
     };
 
     if (file) {
@@ -93,20 +87,13 @@ export default function Register({ searchParams }) {
   };
 
   const storeImageOnIPFS = async (selectedImage) => {
-    // IPFS configuration code...
-    const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-    console.log(bufferData);
-    const helia = await createHelia();
-    const store = strings(helia)
     try {
-      const cid = await store.add(bufferData);
-
-      const finalCid = cid;
-      //console.log('Image stored on IPFS with CID:', cid.toString());
-      console.log(finalCid);
-      setCid(finalCid);
-      //document.getElementById('previewb').style.display = 'flex';
-      //document.getElementById('registerb').style.display = 'flex';
+      const pinata = new PinataClient({ pinataApiKey: 'a0a69ff40e934f206135', pinataSecretApiKey: '432f0c863f93aa9529ec3db009f25f854a12aa722f21b066df59abfea9f795cb' });
+      const res = await pinata.testAuthentication();
+      console.log(res);
+      const fs = require('fs');
+const readableStreamForFile = fs.createReadStream('./yourfile.png');
+      
     } catch (error) {
       console.error('Error storing image on IPFS:', error);
     }
@@ -175,6 +162,7 @@ export default function Register({ searchParams }) {
           <Header />
         </header>
       <div className='Registerc'>
+
       {isConnected && (chain.name === 'Sepolia') ?(<div className='rbody'>
         <div className="buttonc">
             {!isConnected && <div className="data">Connect Your Wallet</div>}

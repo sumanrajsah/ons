@@ -19,7 +19,6 @@ import { strings } from '@helia/strings';
 import { unixfs } from "@helia/unixfs";
 import last from 'it-last';
 import { MemoryBlockstore } from "blockstore-core";
-import { useStorageUpload } from "@thirdweb-dev/react";
 
 
 
@@ -97,29 +96,33 @@ const blockstore = new MemoryBlockstore();
     e.preventDefault();
   };
 
- // ... (other imports)
- const { mutateAsync } = useStorageUpload()
-const storeImageOnIPFS = async (selectedImage) => {
-  const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-  console.log(bufferData);
-      try {
-          const uploadUrl = await mutateAsync({
-            data: [bufferData],
-            options: { uploadWithGatewayUrl: true, uploadWithoutDirectory: true },
-          });
-          console.log(uploadUrl[0])
-          setCid(uploadUrl[0])
-        
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
+  const storeImageOnIPFS = async (selectedImage,imageName) => {
+    // IPFS configuration code...
+    const bufferData = Buffer.from(selectedImage.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+    console.log(bufferData);
+    const helia = await createHelia({blockstore});
+    console.log(helia)
+    const fs = unixfs(helia)
+    console.log('name: ',imageName)
 
-  
-    //reader.readAsDataURL(selectedImage);
+    const fileToAdd = {
+        path: `${imageName}`,
+        content: bufferData
+      }
+    try {
+        const cid = await fs.addFile(fileToAdd);
+      console.log(cid.toString());
+      const finalCid = cid.toString();
+      console.log(`https://gateway.pinata.cloud/ipfs/${finalCid}`)
+      //console.log('Image stored on IPFS with CID:', cid.toString());
+      console.log(finalCid);
+      setCid(finalCid);
+      //document.getElementById('previewb').style.display = 'flex';
+      //document.getElementById('registerb').style.display = 'flex';
+    } catch (error) {
+      console.error('Error storing image on IPFS:', error);
+    }
   };
-  
-  // ... (other code)
-  
   const handleFormSubmit = async (e) => {
     //e.preventDefault();
     //const file = e.target.files[0];
@@ -166,7 +169,6 @@ const storeImageOnIPFS = async (selectedImage) => {
   }
 
   return (
-    
     <div className='register'>
               <header className='headerr'>
           <Header />
@@ -213,7 +215,7 @@ const storeImageOnIPFS = async (selectedImage) => {
                 />
               </div>
              {selectedImage && <button onClick={handleFormSubmit} className="button-18" id='uploadb'>Save Image</button>}
-              {selectedImage && fcid && <Link target="_blank" href={fcid}><button className="button-18" id='previewb'>Preview Image</button></Link>}
+              {selectedImage && fcid && <Link target="_blank" href={`https://ipfs.io/ipfs/${fcid}`}><button className="button-18" id='previewb'>Preview Image</button></Link>}
               {selectedImage && fcid && <button className="buttont" id="registerb" disabled={!write} onClick={() => write?.()}>Register</button>}
             </div>):tx && (<div className="dname">Redirect to your domain page in {remainingTime} seconds</div>)}
             <br/>
